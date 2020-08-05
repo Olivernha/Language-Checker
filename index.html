@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+ 
+
+</head>
+<style>
+   
+
+
+</style>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-5 mb-3">Voice Checker</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="input-group mb-5">
+                    <div class="input-group-prepend box-1">
+                      <label class="input-group-text" >Languages</label>
+                    </div>
+                    <select class="custom-select" id="chooseLanguages">
+                    </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >Text</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Enter the text" id="getText">
+                  </div>
+                  <button type="button" class="btn btn-primary" id="checkButton">Speech</button>
+            </div>
+            </div>
+            <div class="fixed-bottom">
+                <p class="text-center text-danger" >Copyright @oliver</p>
+            </div>
+           
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">    </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            var voices=[];
+            var lang=document.querySelector('#chooseLanguages');
+            var text=document.querySelector('#getText');
+            var btn=document.querySelector('#checkButton');
+
+            function getVoiceList(){
+                voices=speechSynthesis.getVoices();
+
+                var options='';
+                voices.forEach((voice) => {
+                    options += `<option value="${voice.name}">${voice.name}</option>`
+                
+                });
+                lang.innerHTML = options;
+            }
+            getVoiceList();
+            speechSynthesis.onvoiceschanged=getVoiceList;
+
+            btn.addEventListener('click',function(){
+                var language=lang.value;
+                var textValue=text.value;
+
+                var utterance=new SpeechSynthesisUtterance(textValue); // only get text
+
+                voices.forEach((voice)=>{
+                    if(voice.name == language){
+                        utterance.voice = voice;
+                    }
+                });
+                speechSynthesis.speak(utterance);
+            })
+
+
+            
+        </script>
+      
+</body>
+
+</html>
